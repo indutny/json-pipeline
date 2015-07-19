@@ -5,7 +5,7 @@ A structure specification for the flexible compiler design, with support to the
 
 ## Design document
 
-Work on the design document is happening [link][0].
+Work on the design document is happening [here][0].
 
 ## Useful reading
 
