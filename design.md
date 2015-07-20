@@ -33,7 +33,7 @@ for all local variable lookups. Context and global variable lookups should be
 generally done using language-specific opcodes, and are not subject to the SSA
 phase defined below.
 
-Every node (except region nodes) must be in the `nodes` list of one block. First
+Every node (except region nodes) MUST be in the `nodes` list of one block. First
 block in `cfg` section is considered a `start` node.
 
 SSA-less CFG information is propagated to the next stage.
@@ -109,18 +109,19 @@ Generate machine code using blocks and their nodes.
 
   // Optional CFG information
   "cfg": {
-    // Lookup by `block id`
+    // Number of blocks MUST match number of `region` and `start` nodes
     "blocks": [
       {
         "node": ...node id... // Points to region node
-        "successors": [ ...block ids... ],
+        "successors": [ ...node ids... ],
         "nodes": [ ...node ids... ]
       }
     ]
   },
 
-  // Optional dominance information (lookup by `block id` everywhere)
+  // Optional dominance information
   "dominance": {
+    // Number of blocks MUST match number of blocks in `cfg` section
     "blocks": [
       {
         "node": ...node id... // Point to region node
