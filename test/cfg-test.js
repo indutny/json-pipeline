@@ -12,6 +12,8 @@ describe('JSON CFG Builder', function() {
 
   it('should generate CFG', function() {
     var start = p.block('start');
+    assert.equal(start.index, 0);
+
     var one = p.add('literal').addLiteral(1);
     var two = p.add('literal').addLiteral(2);
     var add = p.add('add', [ one, two ]);

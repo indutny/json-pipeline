@@ -17,6 +17,8 @@ describe('JSON Pipeline', function() {
     var add = p.add('add', [ one, two ]);
     var ret = p.add('return', [ add ]).setControl(start);
 
+    assert.equal(one.index, 1);
+
     assert.deepEqual(p.render('json'), fixtures.json.p0);
   });
 
