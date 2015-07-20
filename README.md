@@ -1,4 +1,6 @@
 # JSON pipeline
+[![Build Status](https://secure.travis-ci.org/indutny/json-pipeline.png)](http://travis-ci.org/indutny/json-pipeline)
+[![NPM version](https://badge.fury.io/js/json-pipeline.svg)](http://badge.fury.io/js/json-pipeline)
 
 A structure specification for the flexible compiler design, with support to the
 3rd-party optimization phases.
