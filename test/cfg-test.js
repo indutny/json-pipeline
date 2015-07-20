@@ -31,6 +31,10 @@ describe('JSON CFG Builder', function() {
     var phi = p.addControl('phi', [ x0, x1 ]);
     p.addControl('return', [ phi ]);
 
+    // Normal export
     assert.deepEqual(p.render('json'), fixtures.json.p1);
+
+    // CFG export
+    assert.deepEqual(p.render({ cfg: true }, 'json'), fixtures.json.p1cfg);
   });
 });
