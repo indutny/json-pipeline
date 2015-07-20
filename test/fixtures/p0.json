@@ -2,35 +2,35 @@
   "nodes": [
     {
       "opcode": "start",
-      "control": null,
+      "control": [],
       "literals": [],
       "inputs": []
     },
 
     {
       "opcode": "literal",
-      "control": null,
+      "control": [],
       "literals": [ 1 ],
       "inputs": []
     },
 
     {
       "opcode": "literal",
-      "control": null,
+      "control": [],
       "literals": [ 2 ],
       "inputs": []
     },
 
     {
       "opcode": "add",
-      "control": null,
+      "control": [],
       "literals": [],
       "inputs": [ 1, 2 ]
     },
 
     {
       "opcode": "return",
-      "control": 0,
+      "control": [ 0 ],
       "literals": [],
       "inputs": [ 3 ]
     }

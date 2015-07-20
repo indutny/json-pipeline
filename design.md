@@ -38,7 +38,7 @@ SSA-less CFG information is propagated to the next stage.
 ### SSA-less CFG to CFG+SSA
 
 Using dominator tree information, `ssa:load`s are replaced with proper
-`ssa:store`'s values or `ssa:phi` instructions. `ssa:phi` takes two inputs and
+`ssa:store`'s values or `ssa:phi` nodes. `ssa:phi` takes two inputs and
 has a control dependency on the CFG block that holds it.
 
 `start`, `region`, `jump`, `if`, and `stop` nodes are inserted with field
@@ -69,7 +69,7 @@ Propagate all inputs.
 
 ### Sea-of-Nodes to CFG
 
-Scheduling algorithm generates blocks and puts the instructions at proper
+Scheduling algorithm generates blocks and puts the nodes at proper
 positions into them, thus creating CFG out of DAG representation. Blocks are
 ordered to optimize amount of jumps.
 
@@ -85,7 +85,7 @@ Propagate all inputs.
 
 **Platform specific stage**
 
-Generate machine code using blocks and their instructions.
+Generate machine code using blocks and their nodes.
 
 ## Representation
 
@@ -97,7 +97,7 @@ Generate machine code using blocks and their instructions.
   "nodes": [
     {
       "opcode": "opcode id",
-      "control": null or index of other node,
+      "control": [ ...node ids... ],
 
       "literals": [ ...literal values... ],
       "inputs": [ ...node ids... ]
@@ -109,9 +109,9 @@ Generate machine code using blocks and their instructions.
     // Lookup by `block id`
     "blocks": [
       {
-        "predecessors": [ ...block ids... ],
+        "node": ...node id... // Points to region node
         "successors": [ ...block ids... ],
-        "instructions": [ ...node ids... ]
+        "nodes": [ ...node ids... ]
       }
     ]
   },

@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "opcode": "start",
+      "control": [],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [ 1 ],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [ 2 ],
+      "inputs": []
+    },
+    {
+      "opcode": "add",
+      "control": [],
+      "literals": [],
+      "inputs": [ 1, 2 ]
+    },
+    {
+      "opcode": "if",
+      "control": [ 0 ],
+      "literals": [],
+      "inputs": [ 3 ]
+    },
+    {
+      "opcode": "region",
+      "control": [ 4 ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [ "ok" ],
+      "inputs": []
+    },
+    {
+      "opcode": "jump",
+      "control": [ 5 ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "region",
+      "control": [ 4 ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [ "not-ok" ],
+      "inputs": []
+    },
+    {
+      "opcode": "jump",
+      "control": [ 8 ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "region",
+      "control": [ 7, 10 ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "phi",
+      "control": [ 11 ],
+      "literals": [],
+      "inputs": [ 6, 9 ]
+    },
+    {
+      "opcode": "return",
+      "control": [ 11 ],
+      "literals": [],
+      "inputs": [ 12 ]
+    }
+  ]
+}
