@@ -10,8 +10,7 @@ Opcode names MUST not contain `:` unless:
   any characters except ones defined by the set `[a-zA-Z0-9_\-\.]`
 
 Every node may take several literal inputs, several regular inputs, and
-possibly a control input. Literal inputs are indexes to the `literals` table,
-others are indexes to `nodes` table.
+possibly a control input.
 
 ## Process
 
@@ -94,23 +93,14 @@ Generate machine code using blocks and their instructions.
 
 ```js
 {
-  "opcodes": [
-    // List of opcode string names
-  ],
-
-  "literals": [
-    // List of used literals
-  ],
-
   // Lookup by `node id`
   "nodes": [
     {
-      "opcode": opcode id,
+      "opcode": "opcode id",
       "control": null or index of other node,
 
-      "literals": [ ...literal ids... ],
-      "inputs": [ ...node ids... ],
-      "uses": [ ...node id, input index... ]
+      "literals": [ ...literal values... ],
+      "inputs": [ ...node ids... ]
     }
   ],
 
