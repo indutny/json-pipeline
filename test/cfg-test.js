@@ -37,4 +37,19 @@ describe('JSON CFG Builder', function() {
     // CFG export
     assert.deepEqual(p.render({ cfg: true }, 'json'), fixtures.json.p1cfg);
   });
+
+  it('should parse CFG', function() {
+    p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
+
+    // NOTE: we can't use `.render()` + `deepEqual()` here, because the indexes
+    // are off after parsing
+    assert.equal(p.blocks[0].nodes.length, 4);
+    assert.equal(p.blocks[0].successors.length, 2);
+    assert.equal(p.blocks[1].nodes.length, 2);
+    assert.equal(p.blocks[1].successors.length, 1);
+    assert.equal(p.blocks[2].nodes.length, 2);
+    assert.equal(p.blocks[2].successors.length, 1);
+    assert.equal(p.blocks[3].nodes.length, 2);
+    assert.equal(p.blocks[3].successors.length, 0);
+  });
 });

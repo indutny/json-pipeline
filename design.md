@@ -33,6 +33,9 @@ for all local variable lookups. Context and global variable lookups should be
 generally done using language-specific opcodes, and are not subject to the SSA
 phase defined below.
 
+Every node (except region nodes) must be in the `nodes` list of one block. First
+block in `cfg` section is considered a `start` node.
+
 SSA-less CFG information is propagated to the next stage.
 
 ### SSA-less CFG to CFG+SSA
@@ -41,7 +44,7 @@ Using dominator tree information, `ssa:load`s are replaced with proper
 `ssa:store`'s values or `ssa:phi` nodes. `ssa:phi` takes two inputs and
 has a control dependency on the CFG block that holds it.
 
-`start`, `region`, `jump`, `if`, and `stop` nodes are inserted with field
+`start`, `region`, `jump`, and `if` nodes are inserted with field
 `control` pointing to each other or being `null`.
 
 CFG and dominance information is propagated to the next stage.
