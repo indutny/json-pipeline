@@ -110,7 +110,7 @@ Generate machine code using blocks and their instructions.
 
       "literals": [ ...literal ids... ],
       "inputs": [ ...node ids... ],
-      "uses": [ ...node ids... ]
+      "uses": [ ...node id, input index... ]
     }
   ],
 
@@ -119,7 +119,6 @@ Generate machine code using blocks and their instructions.
     // Lookup by `block id`
     "blocks": [
       {
-        "node": node id,  // Should have `start`, `region`, or `stop` opcode
         "predecessors": [ ...block ids... ],
         "successors": [ ...block ids... ],
         "instructions": [ ...node ids... ]

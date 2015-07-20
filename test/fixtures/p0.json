@@ -1,0 +1,55 @@
+{
+  "opcodes": [
+    "start",
+    "literal",
+    "add",
+    "return"
+  ],
+
+  "literals": [
+    1,
+    2
+  ],
+
+  "nodes": [
+    {
+      "opcode": 0,
+      "control": null,
+      "literals": [],
+      "inputs": [],
+      "uses": []
+    },
+
+    {
+      "opcode": 1,
+      "control": null,
+      "literals": [ 0 ],
+      "inputs": [],
+      "uses": [ 3 ]
+    },
+
+    {
+      "opcode": 1,
+      "control": null,
+      "literals": [ 1 ],
+      "inputs": [],
+      "uses": [ 3 ]
+    },
+
+    {
+      "opcode": 2,
+      "control": null,
+      "literals": [],
+      "inputs": [ 1, 2 ],
+      "uses": [ 4 ]
+    },
+
+    {
+      "opcode": 3,
+      "control": 1,
+      "literals": [],
+      "inputs": [ 3 ],
+      "uses": []
+    }
+  ]
+}
