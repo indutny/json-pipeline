@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "opcode": "start",
+      "control": [],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [
+        true
+      ],
+      "inputs": []
+    },
+    {
+      "opcode": "if",
+      "control": [
+        0
+      ],
+      "literals": [],
+      "inputs": [
+        1
+      ]
+    },
+    {
+      "opcode": "region",
+      "control": [
+        2
+      ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [
+        "ok"
+      ],
+      "inputs": []
+    },
+    {
+      "opcode": "jump",
+      "control": [
+        3
+      ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "region",
+      "control": [
+        2
+      ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "literal",
+      "control": [],
+      "literals": [
+        "not-ok"
+      ],
+      "inputs": []
+    },
+    {
+      "opcode": "jump",
+      "control": [
+        6
+      ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "region",
+      "control": [
+        5,
+        8
+      ],
+      "literals": [],
+      "inputs": []
+    },
+    {
+      "opcode": "phi",
+      "control": [
+        9
+      ],
+      "literals": [],
+      "inputs": [
+        4,
+        7
+      ]
+    },
+    {
+      "opcode": "return",
+      "control": [
+        9
+      ],
+      "literals": [],
+      "inputs": [
+        10
+      ]
+    }
+  ],
+  "cfg": {
+    "blocks": [
+      {
+        "node": 0,
+        "successors": [
+          3,
+          6
+        ],
+        "nodes": [
+          1,
+          2
+        ]
+      },
+      {
+        "node": 3,
+        "successors": [
+          9
+        ],
+        "nodes": [
+          4,
+          5
+        ]
+      },
+      {
+        "node": 6,
+        "successors": [
+          9
+        ],
+        "nodes": [
+          7,
+          8
+        ]
+      },
+      {
+        "node": 9,
+        "successors": [],
+        "nodes": [
+          10,
+          11
+        ]
+      }
+    ]
+  },
+  "dominance": {
+    "blocks": [
+      {
+        "node": 0,
+        "parent": null,
+        "frontier": []
+      },
+      {
+        "node": 3,
+        "parent": 0,
+        "frontier": [
+          9
+        ]
+      },
+      {
+        "node": 6,
+        "parent": 0,
+        "frontier": [
+          9
+        ]
+      },
+      {
+        "node": 9,
+        "parent": 0,
+        "frontier": []
+      }
+    ]
+  }
+}

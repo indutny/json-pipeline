@@ -121,16 +121,16 @@ Generate machine code using blocks and their nodes.
 
   // Optional dominance information (lookup by `block id` everywhere)
   "dominance": {
-    "parent": [ ...block ids... ],
-    "children": [
-      [ ... ],
-      ...
-      [ ... ]
-    ],
-    "frontier": [
-      [ ... ],
-      ...
-      [ ... ]
+    "blocks": [
+      {
+        "node": ...node id... // Point to region node
+        "parent": ...node id... or `null`,
+        "frontier": [
+          [ ... ],
+          ...
+          [ ... ]
+        ]
+      }
     ]
   }
 }
