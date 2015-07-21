@@ -20,6 +20,7 @@ describe('JSON CFG Builder', function() {
     var branch = p.addControl('if', [ add ]);
 
     var left = p.jumpFrom(start);
+    assert.equal(left.blockIndex, 1);
 
     var x0 = p.add('literal').addLiteral('ok');
     var leftEnd = p.addControl('jump');
