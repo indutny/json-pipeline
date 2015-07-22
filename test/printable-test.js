@@ -137,4 +137,134 @@ describe('Printable format', function() {
       ]
     });
   });
+
+  it('should render plain output', function() {
+    p = pipeline.create();
+    p.parse(fixtures.json.p0, 'json');
+
+    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = literal 1
+        i2 = literal 2
+        i3 = add i1, i2
+        i4 = return ^i0, i3
+      }
+    */}));
+  });
+
+  it('should render second plain output', function() {
+    p = pipeline.create();
+    p.parse(fixtures.json.p1, 'json');
+
+    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = literal 1
+        i2 = literal 2
+        i3 = add i1, i2
+        i4 = if ^i0, i3
+        i5 = region ^i4
+        i6 = literal "ok"
+        i7 = jump ^i5
+        i8 = region ^i4
+        i9 = literal "not-ok"
+        i10 = jump ^i8
+        i11 = region ^i7, ^i10
+        i12 = phi ^i11, i6, i9
+        i13 = return ^i11, i12
+      }
+    */}));
+  });
+
+  it('should render CFG output as plain', function() {
+    p = pipeline.create('cfg');
+    p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
+
+    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = literal 1
+        i2 = literal 2
+        i3 = add i1, i2
+        i4 = if ^i0, i3
+        i5 = region ^i4
+        i6 = literal "ok"
+        i7 = jump ^i5
+        i8 = region ^i4
+        i9 = literal "not-ok"
+        i10 = jump ^i8
+        i11 = region ^i7, ^i10
+        i12 = phi ^i11, i6, i9
+        i13 = return ^i11, i12
+      }
+    */}));
+  });
+
+  it('should render CFG output as CFG', function() {
+    p = pipeline.create('cfg');
+    p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
+
+    fixtures.stripEqual(p.render({
+      cfg: true
+    }, 'printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = literal 1
+          i1 = literal 2
+          i2 = add i0, i1
+          i3 = if ^b0, i2
+        }
+        b0 -> b1, b2
+        b1 {
+          i4 = literal "ok"
+          i5 = jump ^b1
+        }
+        b1 -> b3
+        b2 {
+          i6 = literal "not-ok"
+          i7 = jump ^b2
+        }
+        b2 -> b3
+        b3 {
+          i8 = phi ^b3, i4, i6
+          i9 = return ^b3, i8
+        }
+      }
+    */}));
+  });
+
+  it('should render Dominance output', function() {
+    var sections = { cfg: true, dominance: true };
+    p = pipeline.create('dominance');
+    p.parse(fixtures.json.p2dom, sections, 'json');
+
+    var text = p.render(sections, 'printable');
+    fixtures.stripEqual(text, fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = literal true
+          i1 = if ^b0, i0
+        }
+        b0 -> b1, b2
+        b0 => b1, b2, b3
+        b1 {
+          i2 = literal "ok"
+          i3 = jump ^b1
+        }
+        b1 -> b3
+        b1 ~> b3
+        b2 {
+          i4 = literal "not-ok"
+          i5 = jump ^b2
+        }
+        b2 -> b3
+        b2 ~> b3
+        b3 {
+          i6 = phi ^b3, i2, i4
+          i7 = return ^b3, i6
+        }
+      }
+    */}));
+  });
 });
