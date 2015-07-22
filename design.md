@@ -137,6 +137,48 @@ Generate machine code using blocks and their nodes.
 }
 ```
 
+### Printable
+
+`iN` - where `N >= 0`, for each node
+`bN` - where `N >= 0`, for each block
+
+`iX = opcode <literals>, <nodes>` - for every node.
+
+Optionally nodes, might be placed into `block bN { ... }` section.
+
+`bX -> bY, ..., bZ` at the end of the block section to specify block
+successors.
+
+`bX => bY, ..., bZ` to specify children in dominance tree. It is in reverse in
+JSON only for the compactness of the representation.
+
+`bX ~> bY, ..., bZ` for dominance frontier
+
+```
+pipeline {
+  b0 {
+    i0 = opcode 1, 2, ...literals, i1, i2, ... nodes
+  }
+  b0 -> b1, b2
+  b0 => b1, b2, b3
+  b0 ~> b1, b2, b3
+
+  b1 {
+    ...
+  }
+  b1 -> b3
+
+  b2 {
+    ...
+  }
+  b2 -> b3
+
+  b3 {
+    ...
+  }
+}
+```
+
 ### Binary
 
 To be defined
