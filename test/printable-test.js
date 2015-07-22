@@ -105,7 +105,7 @@ describe('Printable format', function() {
 
     assert.deepEqual(printable.toJSON(input), {
       cfg: {
-        blocks: [{
+        blocks: [ {
           node: 0,
           successors: [ 1 ],
           nodes: [ 2, 3, 4, 5 ]
@@ -113,10 +113,10 @@ describe('Printable format', function() {
           node: 1,
           successors: [],
           nodes: [ 6 ]
-        }]
+        } ]
       },
       dominance: {
-        blocks: [{
+        blocks: [ {
           node: 0,
           parent: null,
           frontier: [ 1 ]
@@ -124,7 +124,7 @@ describe('Printable format', function() {
           node: 1,
           parent: 0,
           frontier: []
-        }]
+        } ]
       },
       nodes: [
         { opcode: 'start', control: [], literals: [], inputs: [] },
