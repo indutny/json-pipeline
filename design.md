@@ -44,8 +44,11 @@ Using dominator tree information, `ssa:load`s are replaced with proper
 `ssa:store`'s values or `ssa:phi` nodes. `ssa:phi` takes two inputs and
 has a control dependency on the CFG block that holds it.
 
-`start`, `region`, `jump`, and `if` nodes are inserted with field
-`control` pointing to each other or being `null`.
+`start` and `region`'s `control` field points to the last control instructions
+in the predecessor blocks.
+
+`ssa:phi`, `jump`, and `if` nodes have the parent `region` or `start` node in
+the `control` feild.
 
 CFG and dominance information is propagated to the next stage.
 
@@ -156,8 +159,11 @@ JSON only for the compactness of the representation.
 
 ```
 pipeline {
+  # First block
   b0 {
-    i0 = opcode 1, 2, ...literals, i1, i2, ... nodes
+    # NOTE: `^i1`/`^b0` specifies optional control dependency
+    # (possibly multiple)
+    i1 = opcode ^b0, 1, 2, ...literals, i2, i3, ... nodes
   }
   b0 -> b1, b2
   b0 => b1, b2, b3
