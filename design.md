@@ -34,6 +34,10 @@ generally done using language-specific opcodes, and are not subject to the SSA
 phase defined below. `index` is just a number literal (see literal inputs to
 nodes), and represents local variable stack cell to put/load the value from.
 
+SSA may replace some `ssa:load()`s with `ssa:undefined` if the value was not
+defined at that point. It is up to next phases to figure out what to do with
+such nodes.
+
 Every node (except region nodes) MUST be in the `nodes` list of one block. First
 block in `cfg` section is considered a `start` node.
 
