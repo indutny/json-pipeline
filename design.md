@@ -26,12 +26,13 @@ The compilation goes in a following steps.
 
 AST is naively transformed into CFG graph with:
 
-* `ssa:load(ssa:name("..."))`
-* `ssa:store(ssa:name("..."), value)`
+* `ssa:load(index)`
+* `ssa:store(index, value)`
 
 for all local variable lookups. Context and global variable lookups should be
 generally done using language-specific opcodes, and are not subject to the SSA
-phase defined below.
+phase defined below. `index` is just a number literal (see literal inputs to
+nodes), and represents local variable stack cell to put/load the value from.
 
 Every node (except region nodes) MUST be in the `nodes` list of one block. First
 block in `cfg` section is considered a `start` node.
