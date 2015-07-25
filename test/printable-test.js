@@ -13,7 +13,7 @@ describe('Printable format', function() {
   var printable;
   beforeEach(function() {
     p = pipeline.create('dominance');
-    printable = new Printable({}, p);
+    printable = new Printable({ cfg: true, dominance: true }, p);
   });
 
   it('should have proper line regexp', function() {
@@ -138,6 +138,10 @@ describe('Printable format', function() {
         { opcode: 'if', control: [ 0 ], literals: [], inputs: [] },
         { opcode: 'ret', control: [], literals: [], inputs: [ 4 ] }
       ]
+    });
+
+    assert.doesNotThrow(function() {
+      printable.parse(input);
     });
   });
 
