@@ -145,6 +145,30 @@ describe('Printable format', function() {
     });
   });
 
+  it('should fail to parse some CFG input', function() {
+    var input = fixtures.fn2str(function() {/*
+      pipeline {
+        block b0 {
+          i0 = literal 1
+          i1 = literal 2
+          i2 = add i0, i1
+          i3 = if ^b0
+        }
+        b0 -> b1
+        b0 => b1
+        b0 ~> b1
+
+        b1 {
+          i4 = ret i2
+        }
+      }
+    */});
+
+    assert.throws(function() {
+      printable.parse(input);
+    }, 'block b0');
+  });
+
   it('should render plain output', function() {
     p = pipeline.create();
     p.parse(fixtures.json.p0, 'json');
