@@ -1,4 +1,7 @@
 var assert = require('assert');
+var assertText = require('assert-text');
+
+assertText.options.trim = true;
 
 var pipeline = require('../');
 var Printable = pipeline.Pipeline.formats.printable;
@@ -142,7 +145,7 @@ describe('Printable format', function() {
     p = pipeline.create();
     p.parse(fixtures.json.p0, 'json');
 
-    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
         i0 = start
         i1 = literal 1
@@ -157,7 +160,7 @@ describe('Printable format', function() {
     p = pipeline.create();
     p.parse(fixtures.json.p1, 'json');
 
-    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
         i0 = start
         i1 = literal 1
@@ -181,7 +184,7 @@ describe('Printable format', function() {
     p = pipeline.create('cfg');
     p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
 
-    fixtures.stripEqual(p.render('printable'), fixtures.fn2str(function() {/*
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
         i0 = start
         i1 = literal 1
@@ -205,7 +208,7 @@ describe('Printable format', function() {
     p = pipeline.create('cfg');
     p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
 
-    fixtures.stripEqual(p.render({
+    assertText.equal(p.render({
       cfg: true
     }, 'printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -240,7 +243,7 @@ describe('Printable format', function() {
     p.parse(fixtures.json.p2dom, sections, 'json');
 
     var text = p.render(sections, 'printable');
-    fixtures.stripEqual(text, fixtures.fn2str(function() {/*
+    assertText.equal(text, fixtures.fn2str(function() {/*
       pipeline {
         b0 {
           i0 = literal true
