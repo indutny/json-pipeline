@@ -34,6 +34,8 @@ describe('JSON CFG Builder', function() {
     var phi = p.addControl('phi', [ x0, x1 ]);
     p.addControl('return', [ phi ]);
 
+    assert(phi.block === merge);
+
     // Normal export
     assert.deepEqual(p.render('json'), fixtures.json.p1);
 
