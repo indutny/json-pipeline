@@ -55,4 +55,62 @@ describe('JSON Dominance', function() {
     assert(p.blocks[1].frontier[0] === p.blocks[3]);
     assert(p.blocks[2].frontier[0] === p.blocks[3]);
   });
+
+  it('should enumerate Dominator tree and do `dominates` checks', function() {
+    var input = fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+        }
+        b0 => b1, b4, b6
+
+        b1 {
+        }
+        b1 => b2, b3
+
+        b2 {
+        }
+        b3 {
+        }
+
+        b4 {
+        }
+        b4 => b5
+
+        b5 {
+        }
+
+        b6 {
+        }
+      }
+    */});
+    p.parse(input, { cfg: true, dominance: true }, 'printable');
+
+    p.enumerate();
+
+    /*
+     *             b0
+     *         /    |    \
+     *       b1    b4     b6
+     *    /   |     |
+     *  b2    b3    b5
+     */
+    function range(index) {
+      var block = p.blocks[index];
+      return '[' + block.dominanceStart + ';' + block.dominanceEnd + ']';
+    }
+    assert.equal(range(0), '[0;6]');
+    assert.equal(range(1), '[1;3]');
+    assert.equal(range(2), '[2;2]');
+    assert.equal(range(3), '[3;3]');
+    assert.equal(range(4), '[4;5]');
+    assert.equal(range(6), '[6;6]');
+
+    assert(p.blocks[0].dominates(p.blocks[2]));
+    assert(p.blocks[0].dominates(p.blocks[3]));
+    assert(p.blocks[0].dominates(p.blocks[5]));
+    assert(p.blocks[0].dominates(p.blocks[6]));
+    assert(!p.blocks[1].dominates(p.blocks[5]));
+    assert(!p.blocks[6].dominates(p.blocks[2]));
+    assert(!p.blocks[6].dominates(p.blocks[0]));
+  });
 });
