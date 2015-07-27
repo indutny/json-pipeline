@@ -37,13 +37,14 @@ describe('JSON Pipeline', function() {
     var add = p.add('add', [ one, two ]);
     var extra1 = p.add('add', [ one, two ]);
     var ret = p.add('return', [ add ]).setControl(start);
-    var extra2 = p.add('add', [ one, two ]);
+    var extra2 = p.add('add', [ one, two ]).setControl(start);
 
     p.remove(extra1);
     p.remove(extra2);
 
     assert.equal(one.uses.length, 2);
     assert.equal(two.uses.length, 2);
+    assert.equal(start.uses.length, 2);
 
     assert.deepEqual(p.render('json'), fixtures.json.p0);
   });
