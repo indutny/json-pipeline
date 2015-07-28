@@ -44,7 +44,7 @@ describe('JSON Pipeline', function() {
 
     assert.equal(one.uses.length, 2);
     assert.equal(two.uses.length, 2);
-    assert.equal(start.uses.length, 2);
+    assert.equal(start.controlUses.length, 2);
 
     assert.deepEqual(p.render('json'), fixtures.json.p0);
   });
