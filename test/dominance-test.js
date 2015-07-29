@@ -112,5 +112,13 @@ describe('JSON Dominance', function() {
     assert(!p.blocks[1].dominates(p.blocks[5]));
     assert(!p.blocks[6].dominates(p.blocks[2]));
     assert(!p.blocks[6].dominates(p.blocks[0]));
+
+    assert.equal(p.blocks[0].dominanceDepth, 0);
+    assert.equal(p.blocks[1].dominanceDepth, 1);
+    assert.equal(p.blocks[4].dominanceDepth, 1);
+    assert.equal(p.blocks[6].dominanceDepth, 1);
+    assert.equal(p.blocks[2].dominanceDepth, 2);
+    assert.equal(p.blocks[3].dominanceDepth, 2);
+    assert.equal(p.blocks[5].dominanceDepth, 2);
   });
 });
