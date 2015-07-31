@@ -49,7 +49,7 @@ Using dominator tree information, `ssa:load`s are replaced with proper
 `ssa:store`'s values or `ssa:phi` nodes. `ssa:phi` takes two inputs and
 has a control dependency on the CFG block that holds it.
 
-`start` and `region`'s `control` field points to the last control instructions
+`start` and `region`'s `control` field points to the last control nodes
 in the predecessor blocks.
 
 `ssa:phi`, `jump`, and `if` nodes have the parent `region` or `start` node in
@@ -91,6 +91,15 @@ This stage propagates CFG and dominance information.
 Some optimizations may happen here.
 
 Propagate all inputs.
+
+### Register Allocation
+
+**Platform specific stage**
+
+Allocate register for each input/output of the node, and possibly additional
+temporary regiters.
+
+Propagate register allocator information.
 
 ### Generate machine code
 
@@ -141,6 +150,17 @@ Generate machine code using blocks and their nodes.
         ]
       }
     ]
+  },
+
+  // Optional register allocator information
+  "registers": {
+    "nodes": [
+      {
+        "output": "rax",  // any string identifying register
+        "inputs": [ ... ],  // list of registers
+        "temporary": [ ... ]  // list of temporary registers
+      }
+    ]
   }
 }
 ```
@@ -149,6 +169,7 @@ Generate machine code using blocks and their nodes.
 
 `iN` - where `N >= 0`, for each node
 `bN` - where `N >= 0`, for each block
+`%string` - for register (NOTE: works for both input/output)
 
 `iX = opcode <literals>, <nodes>` - for every node.
 
@@ -189,6 +210,18 @@ pipeline {
   }
 }
 ```
+
+Extras for register allocation:
+
+```
+pipeline {
+  b0 {
+    %rax = x64:opcode ^b0, %rbx, %rcx | tmp: %rdx, %rsi
+  }
+}
+```
+
+`| tmp: ...` specifies list of temporary registers used for the node
 
 ### Binary
 
