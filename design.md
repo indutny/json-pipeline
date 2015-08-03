@@ -55,6 +55,9 @@ in the predecessor blocks.
 `ssa:phi`, `jump`, and `if` nodes have the parent `region` or `start` node in
 the `control` feild.
 
+`ssa:phi` MUST be at the start of the block, or right after other `ssa:phi`.
+`if`, `jump` MUST be the last intruction in the block.
+
 CFG and dominance information is propagated to the next stage.
 
 ### CFG to Sea-of-Nodes
