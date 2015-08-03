@@ -112,6 +112,11 @@ describe('JSON CFG Builder', function() {
         }
       }
     */}));
+
+    // Index of nodes
+    assert.equal(start.index, 0);
+    assert.equal(left.index, 1);
+    assert.equal(right.index, 2);
   });
 
   it('should reindex loop', function() {
