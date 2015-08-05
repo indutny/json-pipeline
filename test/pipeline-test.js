@@ -17,8 +17,8 @@ describe('JSON Pipeline', function() {
 
   'p0 p1 p1cfg p2dom'.split(' ').forEach(function (e) {
     it(e + ' should comply with the schema', function() {
-        assert.equal(tv4.validate(fixtures.json[e], schema), true);
-      });
+      assert.equal(tv4.validate(fixtures.json[e], schema), true);
+    });
   });
 
   it('should render JSON', function() {

@@ -9,16 +9,7 @@
         "properties": {
           "opcode": {
             "type": "string",
-            "enum": [
-              "if",
-              "jump",
-              "region",
-              "start",
-              "literal",
-              "add",
-              "phi",
-              "return"
-            ]
+            "pattern": "^([a-zA-Z0-9\\_\\-\\.\\:])+$"
           },
           "control": {
             "type": "array",
@@ -35,28 +26,7 @@
             }
           },
           "literals": {
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "ok",
-                    "not-ok"
-                  ]
-                },
-                {
-                  "type": "boolean",
-                  "enum": [
-                    true
-                  ]
-                }
-              ]
-            }
+            "type": "array"
           }
         },
         "additionalProperties": false,
