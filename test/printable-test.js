@@ -78,11 +78,41 @@ describe('Printable format', function() {
         blocks: []
       },
       nodes: [
-        { opcode: 'start', control: [], literals: [], inputs: [] },
-        { opcode: 'literal', control: [], literals: [ 1 ], inputs: [] },
-        { opcode: 'literal', control: [], literals: [ 2 ], inputs: [] },
-        { opcode: 'add', control: [], literals: [], inputs: [ 1, 2 ] },
-        { opcode: 'if', control: [ 0 ], literals: [], inputs: [] }
+        {
+          opcode: 'start',
+          control: [],
+          literals: [],
+          inputs: [],
+          loc: { line: 2 }
+        },
+        {
+          opcode: 'literal',
+          control: [],
+          literals: [ 1 ],
+          inputs: [],
+          loc: { line: 3 }
+        },
+        {
+          opcode: 'literal',
+          control: [],
+          literals: [ 2 ],
+          inputs: [],
+          loc: { line: 4 }
+        },
+        {
+          opcode: 'add',
+          control: [],
+          literals: [],
+          inputs: [ 1, 2 ],
+          loc: { line: 5 }
+        },
+        {
+          opcode: 'if',
+          control: [ 0 ],
+          literals: [],
+          inputs: [],
+          loc: { line: 6 }
+        }
       ]
     });
   });
@@ -130,19 +160,64 @@ describe('Printable format', function() {
         } ]
       },
       nodes: [
-        { opcode: 'start', control: [], literals: [], inputs: [] },
-        { opcode: 'region', control: [], literals: [], inputs: [] },
-        { opcode: 'literal', control: [], literals: [ 1 ], inputs: [] },
-        { opcode: 'literal', control: [], literals: [ 2 ], inputs: [] },
-        { opcode: 'add', control: [], literals: [], inputs: [ 2, 3 ] },
-        { opcode: 'if', control: [ 0 ], literals: [], inputs: [] },
-        { opcode: 'ret', control: [], literals: [], inputs: [ 4 ] }
+        {
+          opcode: 'start',
+          control: [],
+          literals: [],
+          inputs: [],
+          loc: { line: 2, end: 7 }
+        },
+        {
+          opcode: 'region',
+          control: [],
+          literals: [],
+          inputs: [],
+          loc: { line: 12, end: 14 }
+        },
+        {
+          opcode: 'literal',
+          control: [],
+          literals: [ 1 ],
+          inputs: [],
+          loc: { line: 3 }
+        },
+        {
+          opcode: 'literal',
+          control: [],
+          literals: [ 2 ],
+          inputs: [],
+          loc: { line: 4 }
+        },
+        {
+          opcode: 'add',
+          control: [],
+          literals: [],
+          inputs: [ 2, 3 ],
+          loc: { line: 5 }
+        },
+        {
+          opcode: 'if',
+          control: [ 0 ],
+          literals: [],
+          inputs: [],
+          loc: { line: 6 }
+        },
+        {
+          opcode: 'ret',
+          control: [],
+          literals: [],
+          inputs: [ 4 ],
+          loc: { line: 13 }
+        }
       ]
     });
 
     assert.doesNotThrow(function() {
       printable.parse(input);
     });
+
+    assert.deepEqual(p.blocks[0].loc, { line: 2, end: 7 });
+    assert.deepEqual(p.blocks[0].nodes[0].loc, { line: 3 });
   });
 
   it('should fail to parse some CFG input', function() {
