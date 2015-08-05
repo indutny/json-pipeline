@@ -31,7 +31,10 @@
         },
         "additionalProperties": false,
         "required": [
-          "opcode"
+          "opcode",
+          "control",
+          "inputs",
+          "literals"
         ]
       }
     },
