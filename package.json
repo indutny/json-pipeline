@@ -1,6 +1,6 @@
 {
   "name": "json-pipeline",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "JSON pipeline for abstract compiler",
   "main": "lib/pipeline.js",
   "scripts": {
