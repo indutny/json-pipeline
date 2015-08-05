@@ -1,5 +1,7 @@
 var assert = require('assert');
 var assertText = require('assert-text');
+var schema = require('../lib/schema.json');
+var tv4 = require('tv4');
 
 assertText.options.trim = true;
 
@@ -11,6 +13,22 @@ describe('JSON Pipeline', function() {
   var p;
   beforeEach(function() {
     p = pipeline.create();
+  });
+
+  it('p0 should comply with the schema', function() {
+    assert.equal(tv4.validate(fixtures.json.p0, schema), true);
+  });
+
+  it('p1 should comply with the schema', function() {
+    assert.equal(tv4.validate(fixtures.json.p1, schema), true);
+  });
+
+  it('p1cfg should comply with the schema', function() {
+    assert.equal(tv4.validate(fixtures.json.p1cfg, schema), true);
+  });
+
+  it('p2dom should comply with the schema', function() {
+    assert.equal(tv4.validate(fixtures.json.p2dom, schema), true);
   });
 
   it('should render JSON', function() {
