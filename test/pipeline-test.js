@@ -15,20 +15,10 @@ describe('JSON Pipeline', function() {
     p = pipeline.create();
   });
 
-  it('p0 should comply with the schema', function() {
-    assert.equal(tv4.validate(fixtures.json.p0, schema), true);
-  });
-
-  it('p1 should comply with the schema', function() {
-    assert.equal(tv4.validate(fixtures.json.p1, schema), true);
-  });
-
-  it('p1cfg should comply with the schema', function() {
-    assert.equal(tv4.validate(fixtures.json.p1cfg, schema), true);
-  });
-
-  it('p2dom should comply with the schema', function() {
-    assert.equal(tv4.validate(fixtures.json.p2dom, schema), true);
+  'p0 p1 p1cfg p2dom'.split(' ').forEach(function (e) {
+    it(e + ' should comply with the schema', function() {
+        assert.equal(tv4.validate(fixtures.json[e], schema), true);
+      });
   });
 
   it('should render JSON', function() {
