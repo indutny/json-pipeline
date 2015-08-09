@@ -102,13 +102,13 @@ Propagate all inputs.
 Allocate register for each input/output of the node, and possibly additional
 temporary regiters.
 
-Propagate register allocator information.
+Propagate data in register allocator format (TBD).
 
 ### Generate machine code
 
 **Platform specific stage**
 
-Generate machine code using blocks and their nodes.
+Generate machine code using register allocator data.
 
 ## Representation
 
@@ -153,17 +153,6 @@ Generate machine code using blocks and their nodes.
         ]
       }
     ]
-  },
-
-  // Optional register allocator information
-  "registers": {
-    "nodes": [
-      {
-        "output": "rax",  // any string identifying register
-        "inputs": [ ... ],  // list of registers
-        "temporary": [ ... ]  // list of temporary registers
-      }
-    ]
   }
 }
 ```
@@ -172,7 +161,6 @@ Generate machine code using blocks and their nodes.
 
 `iN` - where `N >= 0`, for each node
 `bN` - where `N >= 0`, for each block
-`%string` - for register (NOTE: works for both input/output)
 
 `iX = opcode <literals>, <nodes>` - for every node.
 
@@ -213,18 +201,6 @@ pipeline {
   }
 }
 ```
-
-Extras for register allocation:
-
-```
-pipeline {
-  b0 {
-    %rax = x64:opcode ^b0, %rbx, %rcx | tmp: %rdx, %rsi
-  }
-}
-```
-
-`| tmp: ...` specifies list of temporary registers used for the node
 
 ### Binary
 
