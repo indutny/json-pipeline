@@ -159,4 +159,41 @@ describe('JSON CFG Builder', function() {
       }
     */}));
   });
+
+  it('should link', function() {
+    var start = p.block();
+    p.addControl('if');
+
+    var left = p.block();
+    p.addControl('jump');
+
+    var right = p.block();
+    p.addControl('jump');
+
+    var merge = p.block();
+    var one = p.add('literal').addLiteral(1);
+    p.addControl('return', one);
+
+    start.jump(left);
+    start.jump(right);
+    left.jump(merge);
+    right.jump(merge);
+
+    p.link();
+
+    var text = p.render('printable');
+    assertText.equal(text, fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = if ^i0
+        i2 = region ^i1
+        i3 = jump ^i2
+        i4 = region ^i1
+        i5 = jump ^i4
+        i6 = region ^i3, ^i5
+        i7 = literal 1
+        i8 = return ^i6, i7
+      }
+    */}));
+  });
 });
