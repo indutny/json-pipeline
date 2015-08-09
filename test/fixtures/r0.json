@@ -1,0 +1,35 @@
+{
+  "registers": [ "rax", "rbx" ],
+  "spills": 0,
+
+  "instructions": [
+    {
+      "opcode": "literal",
+      "inputs": [],
+      "output": 0,
+      "literals": [ 1 ],
+      "links": []
+    },
+    {
+      "opcode": "literal",
+      "inputs": [],
+      "output": 1,
+      "literals": [ 2 ],
+      "links": []
+    },
+    {
+      "opcode": "add",
+      "inputs": [ 0, 1 ],
+      "output": 0,
+      "literals": [],
+      "links": []
+    },
+    {
+      "opcode": "return",
+      "inputs": [ 0 ],
+      "output": null,
+      "literals": [],
+      "links": []
+    }
+  ]
+}
