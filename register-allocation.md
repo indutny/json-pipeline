@@ -1,5 +1,7 @@
 # Output Format
 
+## JSON
+
 ```js
 {
   "registers": [ "rax", "rbx", ... ],
@@ -22,5 +24,38 @@
       ]
     }
   ]
+}
+```
+
+## Printable
+
+General format for each line is:
+
+`out = opcode literals, links, inputs`
+
+Where output, input, link, and literal have following format:
+
+* `%...` for register
+* `[...]` for spill slot
+* `&+...`, `&-...` for link: `+...` and `-...` specifies offset from the current
+  instruction (in instruction count)
+* everything else - literal
+
+Example:
+
+```
+register {
+  %rax = literal 1
+  %rbx = literal 2
+  %rax = add %rax, %rbx
+  if &+1, &+3
+
+  %rax = add %rax, %rax
+  jump &+3
+
+  %rax = add %rax, %rbx
+  jump &+1
+
+  return %rax
 }
 ```
