@@ -31,14 +31,14 @@ describe('JSON Pipeline', function() {
 
   it('should render printable', function() {
     var one = p.add('literal', p.reg('rax')).addLiteral(1);
-    var two = p.add('literal', p.reg('rbx')).addLiteral(2);
-    var add = p.add('add', p.reg('rax'), [ p.reg('rax'), p.reg('rbx') ]);
+    var two = p.add('literal', p.spill(0)).addLiteral(2);
+    var add = p.add('add', p.reg('rax'), [ p.reg('rax'), p.spill(0) ]);
     var branch = p.add('if');
 
-    var left = p.add('add', p.reg('rax'), [ p.reg('rax'), p.reg('rax') ]);
+    var left = p.add('add', p.spill(1), [ p.reg('rax'), p.reg('rax') ]);
     var leftJump = p.add('jump');
 
-    var right = p.add('add', p.reg('rax'), [ p.reg('rax'), p.reg('rbx') ]);
+    var right = p.add('add', p.reg('rax'), [ p.reg('rax'), p.spill(1) ]);
     var rightJump = p.add('jump');
 
     branch.link(left);
@@ -48,17 +48,23 @@ describe('JSON Pipeline', function() {
     leftJump.link(ret);
     rightJump.link(ret);
 
+    p.setSpillType('gp', 0, 1);
+    p.setSpillType('fp', 1, 2);
+
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       register {
+        # [0, 1) as gp
+        # [1, 2) as fp
+
         %rax = literal 1
-        %rbx = literal 2
-        %rax = add %rax, %rbx
+        [0] = literal 2
+        %rax = add %rax, [0]
         if &+1, &+3
 
-        %rax = add %rax, %rax
+        [1] = add %rax, %rax
         jump &+3
 
-        %rax = add %rax, %rbx
+        %rax = add %rax, [1]
         jump &+1
 
         return %rax
