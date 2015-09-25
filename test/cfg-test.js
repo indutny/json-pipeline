@@ -196,4 +196,21 @@ describe('JSON CFG Builder', function() {
       }
     */}));
   });
+
+  it('should remove', function() {
+    var start = p.block();
+    var rem = p.add('to-be-removed');
+    p.addControl('return');
+
+    p.remove(rem);
+
+    var text = p.render({ cfg: true }, 'printable');
+    assertText.equal(text, fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = return ^b0
+        }
+      }
+    */}));
+  });
 });
