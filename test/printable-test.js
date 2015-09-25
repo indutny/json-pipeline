@@ -278,7 +278,7 @@ describe('Printable format', function() {
         i10 = jump ^i8
         i11 = region ^i7, ^i10
         i12 = phi ^i11, i6, i9
-        i13 = return ^i11, i12
+        i13 = return ^i12, i12
       }
     */}));
   });
@@ -302,7 +302,7 @@ describe('Printable format', function() {
         i10 = jump ^i8
         i11 = region ^i7, ^i10
         i12 = phi ^i11, i6, i9
-        i13 = return ^i11, i12
+        i13 = return ^i12, i12
       }
     */}));
   });
@@ -334,7 +334,7 @@ describe('Printable format', function() {
         b2 -> b3
         b3 {
           i8 = phi ^b3, i4, i6
-          i9 = return ^b3, i8
+          i9 = return ^i8, i8
         }
       }
     */}));
@@ -368,7 +368,7 @@ describe('Printable format', function() {
         b2 ~> b3
         b3 {
           i6 = phi ^b3, i2, i4
-          i7 = return ^b3, i6
+          i7 = return ^i6, i6
         }
       }
     */}));

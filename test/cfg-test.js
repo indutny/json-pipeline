@@ -108,7 +108,7 @@ describe('JSON CFG Builder', function() {
         b2 -> b3
         b3 {
           i8 = phi ^b3, i4, i6
-          i9 = return ^b3, i8
+          i9 = return ^i8, i8
         }
       }
     */}));

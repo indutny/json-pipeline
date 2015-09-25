@@ -53,7 +53,8 @@ has a control dependency on the CFG block that holds it.
 in the predecessor blocks.
 
 `ssa:phi`, `jump`, and `if` nodes have the parent `region` or `start` node in
-the `control` feild.
+the `control` field (or should have `region` or `start` node reachable through
+the `control` field chain).
 
 `ssa:phi` MUST be at the start of the block, or right after other `ssa:phi`.
 `if`, `jump` MUST be the last intruction in the block.

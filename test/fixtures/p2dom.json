@@ -95,7 +95,7 @@
     {
       "opcode": "return",
       "control": [
-        9
+        10
       ],
       "literals": [],
       "inputs": [

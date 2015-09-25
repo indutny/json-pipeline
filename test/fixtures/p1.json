@@ -80,7 +80,7 @@
     },
     {
       "opcode": "return",
-      "control": [ 11 ],
+      "control": [ 12 ],
       "literals": [],
       "inputs": [ 12 ]
     }
