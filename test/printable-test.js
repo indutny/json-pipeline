@@ -131,7 +131,7 @@ describe('Printable format', function() {
         b0 ~> b1
 
         b1 {
-          i4 = ret i2
+          i4 = ret ^b1, i2
         }
       }
     */});
@@ -204,7 +204,7 @@ describe('Printable format', function() {
         },
         {
           opcode: 'ret',
-          control: [],
+          control: [ 1 ],
           literals: [],
           inputs: [ 4 ],
           loc: { line: 13 }
