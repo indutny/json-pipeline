@@ -75,6 +75,10 @@ describe('JSON Pipeline', function() {
 
     var three = p.add('literal').addLiteral(3);
     one.replace(three);
+    assert.equal(add.inputs[0], three);
+    assert.equal(three.uses.length, 2);
+    assert.equal(three.uses[0], add);
+    assert.equal(three.uses[1], 0);
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -93,6 +97,28 @@ describe('JSON Pipeline', function() {
     var end = p.add('end').setControl(middle);
 
     middle.replace(p.add('replaced'));
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = middle
+        i2 = end ^i3
+        i3 = replaced ^i0
+      }
+    */}));
+  });
+
+  it('should replace with control node', function() {
+    var start = p.add('start');
+    var middle = p.add('middle');
+    var end = p.add('end').setControl(middle);
+
+    var replaced = p.add('replaced').setControl(start);
+    middle.replace(replaced);
+    assert.equal(start.controlUses.length, 2);
+    assert.equal(replaced.controlUses.length, 2);
+    assert.equal(replaced.control.length, 1);
+    assert.equal(end.control.length, 1);
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
