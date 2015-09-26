@@ -147,4 +147,20 @@ describe('JSON Pipeline', function() {
       }
     */}));
   });
+
+  it('should remove control from control node', function() {
+    var start = p.add('start');
+    var middle = p.add('middle').setControl(start);
+    var end = p.add('end').setControl(middle);
+
+    middle.removeControl();
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = middle
+        i2 = end ^i0
+      }
+    */}));
+  });
 });
