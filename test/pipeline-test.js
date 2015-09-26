@@ -68,12 +68,32 @@ describe('JSON Pipeline', function() {
   });
 
   it('should replace node uses with other node', function() {
+    var start = p.add('start');
+    var one = p.add('literal').setControl(start).addLiteral(1);
+    var two = p.add('literal').addLiteral(2);
+    var add = p.add('add', [ one, two ]).setControl(one);
+
+    var three = p.add('literal').addLiteral(3);
+    one.replace(three);
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = literal 1
+        i2 = literal 2
+        i3 = add ^i4, i4, i2
+        i4 = literal ^i0, 3
+      }
+    */}));
+  });
+
+  it('should replace input uses with other node', function() {
     var one = p.add('literal').addLiteral(1);
     var two = p.add('literal').addLiteral(2);
     var add = p.add('add', [ one, two ]);
 
     var three = p.add('literal').addLiteral(3);
-    one.replace(three);
+    add.replaceInput(0, three);
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
