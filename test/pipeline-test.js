@@ -87,6 +87,23 @@ describe('JSON Pipeline', function() {
     */}));
   });
 
+  it('should replace control node', function() {
+    var start = p.add('start');
+    var middle = p.add('middle').setControl(start);
+    var end = p.add('end').setControl(middle);
+
+    middle.replace(p.add('replaced'));
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = middle
+        i2 = end ^i3
+        i3 = replaced ^i0
+      }
+    */}));
+  });
+
   it('should replace input uses with other node', function() {
     var one = p.add('literal').addLiteral(1);
     var two = p.add('literal').addLiteral(2);
