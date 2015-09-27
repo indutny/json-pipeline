@@ -52,7 +52,7 @@ describe('JSON Pipeline', function() {
     assert.deepEqual(p.render('json'), fixtures.json.p0);
   });
 
-  it('should cut control nodes', function() {
+  it('should remove control nodes', function() {
     var start = p.add('start');
     var middle = p.add('middle').setControl(start);
     var end = p.add('end').setControl(middle);
@@ -63,6 +63,27 @@ describe('JSON Pipeline', function() {
       pipeline {
         i0 = start
         i1 = end ^i0
+      }
+    */}));
+  });
+
+  it('should cut control nodes', function() {
+    var start = p.add('start');
+    var branch = p.add('if').setControl(start);
+    var left = p.add('region').setControl(branch);
+    var right = p.add('region').setControl(branch);
+    var merge = p.add('end').setControl(left, right);
+
+    p.cut(branch);
+    assert.equal(start.controlUses.length, 0);
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = if
+        i2 = region ^i1
+        i3 = region ^i1
+        i4 = end ^i2, ^i3
       }
     */}));
   });
