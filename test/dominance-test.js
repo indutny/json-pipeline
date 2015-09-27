@@ -35,6 +35,8 @@ describe('JSON Dominance', function() {
     var phi = p.addControl('phi', [ x0, x1 ]);
     p.addControl('return', [ phi ]);
 
+    p.link();
+
     // Dominance export
     assert.deepEqual(p.render({
       cfg: true,

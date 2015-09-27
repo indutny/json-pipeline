@@ -39,6 +39,8 @@ describe('JSON CFG Builder', function() {
 
     assert(phi.block === merge);
 
+    p.link();
+
     // Normal export
     assert.deepEqual(p.render('json'), fixtures.json.p1);
 
@@ -84,6 +86,7 @@ describe('JSON CFG Builder', function() {
     p.addControl('return', [ phi ]);
 
     p.reindex();
+    p.link();
 
     // CFG export
     var text = p.render({ cfg: true }, 'printable');
@@ -135,6 +138,7 @@ describe('JSON CFG Builder', function() {
     p.addControl('return', read);
 
     p.reindex();
+    p.link();
 
     // CFG export
     var text = p.render({ cfg: true }, 'printable');
@@ -203,6 +207,7 @@ describe('JSON CFG Builder', function() {
     p.addControl('return');
 
     p.remove(rem);
+    p.link();
 
     var text = p.render({ cfg: true }, 'printable');
     assertText.equal(text, fixtures.fn2str(function() {/*
