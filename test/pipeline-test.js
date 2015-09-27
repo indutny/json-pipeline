@@ -184,4 +184,22 @@ describe('JSON Pipeline', function() {
       }
     */}));
   });
+
+  it('should split control', function() {
+    var start = p.add('start');
+    var end = p.add('end').setControl(start);
+
+    var middle = p.add('middle').splitControl(start);
+
+    assert.equal(start.controlUses.length, 2);
+    assert.equal(middle.controlUses.length, 2);
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = end ^i2
+        i2 = middle ^i0
+      }
+    */}));
+  });
 });
