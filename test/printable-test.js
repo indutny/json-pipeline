@@ -25,29 +25,29 @@ describe('Printable format', function() {
 
     match = 'b123 {'.match(re);
     assert(match && match[2] && !match[4]);
-    assert.equal(match[2], '123');
+    assert.equal(match[2], 'b123');
 
     match = 'b123 => b456, b7, b8'.match(re);
     assert(match && match[2] && match[4]);
-    assert.equal(match[2], '123');
+    assert.equal(match[2], 'b123');
     assert.equal(match[4], '=>');
     assert.equal(match[5], 'b456, b7, b8');
 
     match = 'i23 = opcode 1, "hel lo", i1, i2'.match(re);
     assert(match && match[6]);
-    assert.equal(match[6], '23');
+    assert.equal(match[6], 'i23');
     assert.equal(match[7], 'opcode');
     assert.equal(match[8], '1, "hel lo", i1, i2');
 
     match = 'i23 = opcode 1'.match(re);
     assert(match && match[6]);
-    assert.equal(match[6], '23');
+    assert.equal(match[6], 'i23');
     assert.equal(match[7], 'opcode');
     assert.equal(match[8], '1');
 
     match = 'i23 = opcode  '.match(re);
     assert(match && match[6]);
-    assert.equal(match[6], '23');
+    assert.equal(match[6], 'i23');
     assert.equal(match[7], 'opcode');
     assert.equal(match[8], undefined);
 
@@ -70,51 +70,18 @@ describe('Printable format', function() {
       }
     */});
 
-    assert.deepEqual(printable.toJSON(input), {
-      cfg: {
-        blocks: []
-      },
-      dominance: {
-        blocks: []
-      },
-      nodes: [
-        {
-          opcode: 'start',
-          control: [],
-          literals: [],
-          inputs: [],
-          loc: { line: 2 }
-        },
-        {
-          opcode: 'literal',
-          control: [],
-          literals: [ 1 ],
-          inputs: [],
-          loc: { line: 3 }
-        },
-        {
-          opcode: 'literal',
-          control: [],
-          literals: [ 2 ],
-          inputs: [],
-          loc: { line: 4 }
-        },
-        {
-          opcode: 'add',
-          control: [],
-          literals: [],
-          inputs: [ 1, 2 ],
-          loc: { line: 5 }
-        },
-        {
-          opcode: 'if',
-          control: [ 0 ],
-          literals: [],
-          inputs: [],
-          loc: { line: 6 }
-        }
-      ]
-    });
+    printable.parse(input);
+
+    var text = p.render('printable');
+    assertText.equal(text, fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = start
+        i1 = literal 1
+        i2 = literal 2
+        i3 = add i1, i2
+        i4 = if ^i0
+      }
+    */}));
   });
 
   it('should parse CFG input', function() {
@@ -136,88 +103,26 @@ describe('Printable format', function() {
       }
     */});
 
-    assert.deepEqual(printable.toJSON(input), {
-      cfg: {
-        blocks: [ {
-          node: 0,
-          successors: [ 1 ],
-          nodes: [ 2, 3, 4, 5 ]
-        }, {
-          node: 1,
-          successors: [],
-          nodes: [ 6 ]
-        } ]
-      },
-      dominance: {
-        blocks: [ {
-          node: 0,
-          parent: null,
-          frontier: [ 1 ]
-        }, {
-          node: 1,
-          parent: 0,
-          frontier: []
-        } ]
-      },
-      nodes: [
-        {
-          opcode: 'start',
-          control: [],
-          literals: [],
-          inputs: [],
-          loc: { line: 2, end: 7 }
-        },
-        {
-          opcode: 'region',
-          control: [],
-          literals: [],
-          inputs: [],
-          loc: { line: 12, end: 14 }
-        },
-        {
-          opcode: 'literal',
-          control: [],
-          literals: [ 1 ],
-          inputs: [],
-          loc: { line: 3 }
-        },
-        {
-          opcode: 'literal',
-          control: [],
-          literals: [ 2 ],
-          inputs: [],
-          loc: { line: 4 }
-        },
-        {
-          opcode: 'add',
-          control: [],
-          literals: [],
-          inputs: [ 2, 3 ],
-          loc: { line: 5 }
-        },
-        {
-          opcode: 'if',
-          control: [ 0 ],
-          literals: [],
-          inputs: [],
-          loc: { line: 6 }
-        },
-        {
-          opcode: 'ret',
-          control: [ 1 ],
-          literals: [],
-          inputs: [ 4 ],
-          loc: { line: 13 }
-        }
-      ]
-    });
-
-    assert.doesNotThrow(function() {
-      printable.parse(input);
-    });
+    printable.parse(input);
 
     assert.deepEqual(p.blocks[0].loc, { line: 2, end: 7 });
     assert.deepEqual(p.blocks[0].nodes[0].loc, { line: 3 });
+
+    var text = p.render({ cfg: true }, 'printable');
+    assertText.equal(text, fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = literal 1
+          i1 = literal 2
+          i2 = add i0, i1
+          i3 = if ^b0
+        }
+        b0 -> b1
+        b1 {
+          i4 = ret ^b1, i2
+        }
+      }
+    */}));
   });
 
   it('should fail to parse some CFG input', function() {
@@ -369,6 +274,44 @@ describe('Printable format', function() {
         b3 {
           i6 = phi ^b3, i2, i4
           i7 = return ^i6, i6
+        }
+      }
+    */}));
+  });
+
+  it('should parse out-of-order CFG', function() {
+    var input = fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = literal 1
+          i2 = literal 2
+          i4 = add i0, i2
+          i6 = if ^b0
+        }
+        b0 -> b1
+
+        b1 {
+          i8 = ssa:phi ^b1, i4, i2
+          i10 = ret ^i8, i8
+        }
+      }
+    */});
+
+    printable.parse(input);
+
+    var text = p.render({ cfg: true }, 'printable');
+    assertText.equal(text, fixtures.fn2str(function() {/*
+      pipeline {
+        b0 {
+          i0 = literal 1
+          i1 = literal 2
+          i2 = add i0, i1
+          i3 = if ^b0
+        }
+        b0 -> b1
+        b1 {
+          i4 = ssa:phi ^b1, i2, i1
+          i5 = ret ^i4, i4
         }
       }
     */}));
