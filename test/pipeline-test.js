@@ -44,6 +44,7 @@ describe('JSON Pipeline', function() {
 
     p.remove(extra1);
     p.remove(extra2);
+    p.verify();
 
     assert.equal(one.uses.length, 2);
     assert.equal(two.uses.length, 2);
@@ -58,6 +59,7 @@ describe('JSON Pipeline', function() {
     var end = p.add('end').setControl(middle);
 
     p.remove(middle);
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -76,6 +78,7 @@ describe('JSON Pipeline', function() {
 
     p.cut(branch);
     assert.equal(start.controlUses.length, 0);
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -100,6 +103,7 @@ describe('JSON Pipeline', function() {
     assert.equal(three.uses.length, 2);
     assert.equal(three.uses[0], add);
     assert.equal(three.uses[1], 0);
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -140,6 +144,7 @@ describe('JSON Pipeline', function() {
     assert.equal(replaced.controlUses.length, 2);
     assert.equal(replaced.control.length, 1);
     assert.equal(end.control.length, 1);
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -175,6 +180,7 @@ describe('JSON Pipeline', function() {
     var end = p.add('end').setControl(middle);
 
     middle.removeControl();
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {
@@ -193,6 +199,7 @@ describe('JSON Pipeline', function() {
 
     assert.equal(start.controlUses.length, 2);
     assert.equal(middle.controlUses.length, 2);
+    p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
       pipeline {

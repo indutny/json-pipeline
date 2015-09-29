@@ -36,6 +36,7 @@ describe('JSON Dominance', function() {
     p.addControl('return', [ phi ]);
 
     p.link();
+    p.verify();
 
     // Dominance export
     assert.deepEqual(p.render({
@@ -46,6 +47,8 @@ describe('JSON Dominance', function() {
 
   it('should parse CFG with Dominator tree', function() {
     p.parse(fixtures.json.p2dom, { cfg: true, dominance: true }, 'json');
+
+    p.verify();
 
     // Tree
     assert(p.blocks[0].parent === null);
@@ -88,6 +91,7 @@ describe('JSON Dominance', function() {
     p.parse(input, { cfg: true, dominance: true }, 'printable');
 
     p.enumerate();
+    p.verify();
 
     /*
      *             b0

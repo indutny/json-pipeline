@@ -40,6 +40,7 @@ describe('JSON CFG Builder', function() {
     assert(phi.block === merge);
 
     p.link();
+    p.verify();
 
     // Normal export
     assert.deepEqual(p.render('json'), fixtures.json.p1);
@@ -50,6 +51,7 @@ describe('JSON CFG Builder', function() {
 
   it('should parse CFG', function() {
     p.parse(fixtures.json.p1cfg, { cfg: true }, 'json');
+    p.verify();
 
     // NOTE: we can't use `.render()` + `deepEqual()` here, because the indexes
     // are off after parsing
@@ -87,6 +89,7 @@ describe('JSON CFG Builder', function() {
 
     p.reindex();
     p.link();
+    p.verify();
 
     // CFG export
     var text = p.render({ cfg: true }, 'printable');
@@ -128,17 +131,23 @@ describe('JSON CFG Builder', function() {
 
     var head = p.jumpFrom(start);
     var read = p.add('read');
-    var branch = p.addControl('if', [ read ]);
 
-    var body = p.jumpFrom(head);
+    var next = p.jumpFrom(head);
+
+    var branch = p.addControl('if', [ read ]);
+    var body = p.jumpFrom(next);
     p.add('print');
+
+    // Ensure no X intersection
     body.jump(head);
 
-    var end = p.jumpFrom(head);
+    var end = p.jumpFrom(next);
     p.addControl('return', read);
 
     p.reindex();
     p.link();
+    console.log(p.render({ cfg: true }, 'printable'));
+    p.verify();
 
     // CFG export
     var text = p.render({ cfg: true }, 'printable');
@@ -150,15 +159,18 @@ describe('JSON CFG Builder', function() {
         b0 -> b1
         b1 {
           i1 = read
-          i2 = if ^b1, i1
         }
-        b1 -> b2, b3
+        b1 -> b2
         b2 {
+          i2 = if ^b2, i1
+        }
+        b2 -> b3, b4
+        b3 {
           i3 = print
         }
-        b2 -> b1
-        b3 {
-          i4 = return ^b3, i1
+        b3 -> b1
+        b4 {
+          i4 = return ^b4, i1
         }
       }
     */}));
@@ -184,6 +196,7 @@ describe('JSON CFG Builder', function() {
     right.jump(merge);
 
     p.link();
+    p.verify();
 
     var text = p.render('printable');
     assertText.equal(text, fixtures.fn2str(function() {/*
@@ -208,6 +221,7 @@ describe('JSON CFG Builder', function() {
 
     p.remove(rem);
     p.link();
+    p.verify();
 
     var text = p.render({ cfg: true }, 'printable');
     assertText.equal(text, fixtures.fn2str(function() {/*
