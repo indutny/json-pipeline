@@ -146,7 +146,6 @@ describe('JSON CFG Builder', function() {
 
     p.reindex();
     p.link();
-    console.log(p.render({ cfg: true }, 'printable'));
     p.verify();
 
     // CFG export
