@@ -29,6 +29,11 @@ describe('JSON Pipeline', function() {
     assert.deepEqual(p.render('json'), fixtures.json.r0);
   });
 
+  it('should report used registers', function() {
+    p.parse(fixtures.json.r0, 'json');
+    assert.deepEqual(p.getUsedRegisters(), [ 'rax', 'rbx' ]);
+  });
+
   it('should render printable', function() {
     var one = p.add('literal', p.reg('rax')).addLiteral(1);
     var two = p.add('literal', p.spill(0)).addLiteral(2);
