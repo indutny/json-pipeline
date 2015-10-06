@@ -98,11 +98,13 @@ describe('JSON Pipeline', function() {
     var add = p.add('add', [ one, two ]).setControl(one);
 
     var three = p.add('literal').addLiteral(3);
+    one.loc = 'ok';
     one.replace(three);
     assert.equal(add.inputs[0], three);
     assert.equal(three.uses.length, 2);
     assert.equal(three.uses[0], add);
     assert.equal(three.uses[1], 0);
+    assert.equal(three.loc, 'ok');
     p.verify();
 
     assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
