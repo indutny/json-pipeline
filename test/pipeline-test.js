@@ -176,6 +176,28 @@ describe('JSON Pipeline', function() {
     */}));
   });
 
+  it('should remove input', function() {
+    var one = p.add('literal').addLiteral(1);
+    var two = p.add('literal').addLiteral(2);
+    var use = p.add('use', [ one, two ]);
+
+    var three = p.add('literal').addLiteral(3);
+    use.removeInput(0);
+    assert.equal(one.uses.length, 0);
+    assert.equal(two.uses.length, 2);
+    assert.equal(two.uses[0], use);
+    assert.equal(two.uses[1], 0);
+
+    assertText.equal(p.render('printable'), fixtures.fn2str(function() {/*
+      pipeline {
+        i0 = literal 1
+        i1 = literal 2
+        i2 = use i1
+        i3 = literal 3
+      }
+    */}));
+  });
+
   it('should remove control from control node', function() {
     var start = p.add('start');
     var middle = p.add('middle').setControl(start);
