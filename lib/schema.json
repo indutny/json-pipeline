@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opcode": {
+            "type": "string",
+            "pattern": "^([a-zA-Z0-9\\_\\-\\.\\:])+$"
+          },
+          "control": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "literals": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "opcode",
+          "control",
+          "inputs",
+          "literals"
+        ]
+      }
+    },
+    "cfg": {
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "node": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "nodes": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "successors": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "node",
+              "nodes",
+              "successors"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "blocks"
+      ]
+    },
+    "dominance": {
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "node": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "parent": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "frontier": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "node",
+              "parent",
+              "frontier"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "blocks"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "nodes"
+  ]
+}
